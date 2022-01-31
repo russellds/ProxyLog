@@ -21,7 +21,7 @@ function Write-Information {
             $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Write-Information', [System.Management.Automation.CommandTypes]::Cmdlet)
             $scriptCmd = { & $wrappedCmd @PSBoundParameters }
 
-            $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
+            $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
             $steppablePipeline.Begin($PSCmdlet)
         } catch {
             throw
@@ -37,10 +37,10 @@ function Write-Information {
                 Level = 1
             }
 
-            if ($myInvocation.ScriptName) {
-                $paramWriteLog.Component = "$( $MyInvocation.ScriptName | Split-Path -Leaf):$( $MyInvocation.ScriptLineNumber) "
+            if ($MyInvocation.ScriptName) {
+                $paramWriteLog.Component = "$( $MyInvocation.ScriptName | Split-Path -Leaf):$( $MyInvocation.ScriptLineNumber)"
             } else {
-                $paramWriteLog.Component = $myInvocation.MyCommand
+                $paramWriteLog.Component = "$( $MyInvocation.MyCommand ):$( $MyInvocation.ScriptLineNumber )"
             }
 
             WriteLog @paramWriteLog
