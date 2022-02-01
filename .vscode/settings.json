@@ -1,4 +1,7 @@
 {
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
     "powershell.codeFormatting.addWhitespaceAroundPipe": true,
     "powershell.codeFormatting.alignPropertyValuePairs": false,
     "powershell.codeFormatting.autoCorrectAliases": true,
