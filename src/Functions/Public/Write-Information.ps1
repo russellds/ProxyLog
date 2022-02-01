@@ -34,15 +34,9 @@ function Write-Information {
 
             $paramWriteLog = @{
                 Message = $MessageData
+                Invocation = $MyInvocation
                 Level = 1
             }
-
-            if ($MyInvocation.ScriptName) {
-                $paramWriteLog.Component = "$( $MyInvocation.ScriptName | Split-Path -Leaf):$( $MyInvocation.ScriptLineNumber)"
-            } else {
-                $paramWriteLog.Component = "$( $MyInvocation.MyCommand ):$( $MyInvocation.ScriptLineNumber )"
-            }
-
             WriteLog @paramWriteLog
         } catch {
             throw

@@ -4,23 +4,25 @@ function WriteLog {
         [string] $Message,
 
         [Parameter(Mandatory)]
-        [string] $Component,
+        [object] $Invocation,
 
         [Parameter(Mandatory)]
         [ValidateSet(1, 2, 3)]
-        [int] $Level,
-
-        [AllowNull]
-        [string] $File
+        [int] $Level
     )
 
     $dateTime = Get-Date
 
-    $time = "$( $dateTime.ToString('HH:mm:ss') ).$( $dateTime.Millisecond )+000"
+    $entry = '<![LOG[{0}]LOG]!><time="{1}" date="{2}" component="{3}" context="" type="{4}" thread="" file="{5}">'
 
-    $entry = '<![LOG[{0}]LOG]!><time="{1}" date="{2}" component="{3}" context="" type="{4}" thread="" file="{4}">'
+    if ($Invocation.ScriptName) {
+        $component = "$( $Invocation.ScriptName | Split-Path -Leaf):$( $Invocation.ScriptLineNumber )"
+        $file = $Invocation.ScriptName
+    } else {
+        $component = "$( $Invocation.MyCommand ):$( $Invocation.ScriptLineNumber )"
+    }
 
-    $entyFormat = $Message, $time, $dateTime.ToString('MM-dd-yyyy'), $Component, $File
+    $entyFormat = $Message, $dateTime.ToString('HH:mm:ss.ffffff'), $dateTime.ToString('MM-dd-yyyy'), $component, $Level, $file
 
     if (-not $WriteLogFilePath) {
         $WriteLogFilePath = Join-Path -Path $env:TEMP -ChildPath "Powershell/$( $dateTime.ToString('yyyy-MM-dd') ).log"

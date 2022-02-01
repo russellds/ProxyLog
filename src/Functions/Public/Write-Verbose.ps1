@@ -1,5 +1,5 @@
-function Write-Warning {
-    [CmdletBinding(HelpUri = 'https://go.microsoft.com/fwlink/?LinkID=2097044', RemotingCapability = 'None')]
+function Write-Verbose {
+    [CmdletBinding(HelpUri = 'https://go.microsoft.com/fwlink/?LinkID=2097043', RemotingCapability = 'None')]
     param(
         [Parameter(Mandatory = $true, Position = 0, ValueFromPipeline = $true)]
         [Alias('Msg')]
@@ -14,7 +14,7 @@ function Write-Warning {
                 $PSBoundParameters['OutBuffer'] = 1
             }
 
-            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Write-Warning', [System.Management.Automation.CommandTypes]::Cmdlet)
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand('Microsoft.PowerShell.Utility\Write-Verbose', [System.Management.Automation.CommandTypes]::Cmdlet)
             $scriptCmd = { & $wrappedCmd @PSBoundParameters }
 
             $steppablePipeline = $scriptCmd.GetSteppablePipeline($myInvocation.CommandOrigin)
@@ -28,12 +28,14 @@ function Write-Warning {
         try {
             $steppablePipeline.Process($_)
 
-            $paramWriteLog = @{
-                Message = "WARNING: $( $Message )"
-                Invocation = $MyInvocation
-                Level = 2
+            if ($PSBoundParameters['Verbose'] -or ($global:VerbosePreference -ne 'SilentlyContinue')) {
+                $paramWriteLog = @{
+                    Message = "VERBOSE: $( $Message )"
+                    Invocation = $MyInvocation
+                    Level = 1
+                }
+                WriteLog @paramWriteLog
             }
-            WriteLog @paramWriteLog
         } catch {
             throw
         }
@@ -47,9 +49,10 @@ function Write-Warning {
         }
     }
 }
+
 <#
 
-.ForwardHelpTargetName Microsoft.PowerShell.Utility\Write-Warning
+.ForwardHelpTargetName Microsoft.PowerShell.Utility\Write-Verbose
 .ForwardHelpCategory Cmdlet
 
 #>
