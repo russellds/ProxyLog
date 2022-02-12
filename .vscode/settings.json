@@ -2,6 +2,11 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
+    "files.associations": {
+        "*.ps1xml": "xml"
+    },
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
     "powershell.codeFormatting.addWhitespaceAroundPipe": true,
     "powershell.codeFormatting.alignPropertyValuePairs": false,
     "powershell.codeFormatting.autoCorrectAliases": true,
@@ -19,9 +24,5 @@
     "powershell.codeFormatting.whitespaceBeforeOpenBrace": true,
     "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
     "powershell.codeFormatting.whitespaceBetweenParameters": true,
-    "powershell.codeFormatting.whitespaceInsideBrace": true,
-    "[powershell]": {
-        "files.insertFinalNewline": true,
-        "files.trimTrailingWhitespace": true
-    }
+    "powershell.codeFormatting.whitespaceInsideBrace": true
 }

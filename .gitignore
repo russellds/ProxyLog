@@ -1,4 +1,6 @@
 ## Ignore Files for ProxyLog PowerShell Module
 
+Output/
+
 # Directory for Local Test Scripts
 TestScripts

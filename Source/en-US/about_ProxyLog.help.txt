@@ -1,0 +1,8 @@
+TOPIC
+    about_ProxyLog
+
+SHORT DESCRIPTION
+    Proxy Log PowerShell Module
+
+LONG DESCRIPTION
+    Proxy Log PowerShell Module
