@@ -77,7 +77,7 @@ function Write-Error {
                 Invocation = $MyInvocation
                 Level = 3
             }
-            WriteLog @paramWriteLog
+            ProxyLog @paramWriteLog
         } catch {
             throw
         }

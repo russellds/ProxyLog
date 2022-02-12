@@ -1,4 +1,4 @@
-function WriteLog {
+function ProxyLog {
     param(
         [Parameter(Mandatory)]
         [string] $Message,

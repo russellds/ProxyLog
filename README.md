@@ -1,3 +1,3 @@
-# WriteLog
+# ProxyLog
 
 PowerShell Logging Module

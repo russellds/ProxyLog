@@ -37,7 +37,7 @@ function Write-Information {
                 Invocation = $MyInvocation
                 Level = 1
             }
-            WriteLog @paramWriteLog
+            ProxyLog @paramWriteLog
         } catch {
             throw
         }

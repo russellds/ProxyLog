@@ -33,7 +33,7 @@ function Write-Warning {
                 Invocation = $MyInvocation
                 Level = 2
             }
-            WriteLog @paramWriteLog
+            ProxyLog @paramWriteLog
         } catch {
             throw
         }

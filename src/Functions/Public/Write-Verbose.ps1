@@ -34,7 +34,7 @@ function Write-Verbose {
                     Invocation = $MyInvocation
                     Level = 1
                 }
-                WriteLog @paramWriteLog
+                ProxyLog @paramWriteLog
             }
         } catch {
             throw
