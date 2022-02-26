@@ -1,25 +1,29 @@
-mode: Mainline
-commit-message-incrementing: MergeMessageOnly
-
-assembly-versioning-format: '{Major}.{Minor}.{Patch}.{env:BUILDCOUNT ?? 0}'
-assembly-informational-format: '{NuGetVersionV2}+Build.{env:BUILDCOUNT ?? 0}.Date.{CommitDate}.Branch.{env:SAFEBRANCHNAME ?? unknown}.Sha.{Sha}'
-commit-date-format: yyyyMMddTHHmmss
-
+mode: ContinuousDeployment
+next-version: 0.0.0
 branches:
-  master:
+  main:
+    regex: main$
+    tag: preview
     increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
     is-release-branch: true
-  pull-request:
-    tag: rc
+  bugfix:
+    regex: bug(fix)?[-/]
+    source-branches:
+    - main
+    tag: preview
     increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false
   feature:
-    regex: .*/
-    tag: useBranchName
-    increment: Patch
-    source-branches: ['master', 'feature']
-    track-merge-target: true
-  release:
-    tag: ''
-    regex: releases?[/-]\d+\.\d+\.\d+
-    increment: Patch
-    is-release-branch: true
+    regex: f(eatures)?[-/]
+    tag: preview
+    increment: Minor
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: false
+    tracks-release-branches: false
+    is-release-branch: false

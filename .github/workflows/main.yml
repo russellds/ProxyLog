@@ -1,0 +1,50 @@
+name: 'Build, Test, and Publish PowerShell Module'
+on: [push]
+env:
+  MODULE_NAME: 'ProxyLog'
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: russellds/pwsh-module-build@v0
+      id: pwshModuleBuild
+
+    outputs:
+      preReleaseTag: ${{ steps.pwshModuleBuild.outputs.preReleaseTag }}
+
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, windows-2016, ubuntu-latest, macos-latest]
+    needs: build
+    steps:
+      - uses: russellds/pwsh-module-test@v0
+        with:
+          moduleName: ${{ env.MODULE_NAME }}
+
+  publishPreview:
+    if: contains(needs.build.outputs.preReleaseTag, 'preview')
+    runs-on: windows-latest
+    needs: [build, test]
+    environment:
+      name: preview
+    steps:
+      - uses: russellds/pwsh-module-publish@v0
+        with:
+          moduleName: ${{ env.MODULE_NAME }}
+          nuGetApiKey: ${{ secrets.PS_GALLERY_API_KEY }}
+          testGallery: 'True'
+
+  publishProd:
+    if: needs.build.outputs.preReleaseTag == null
+    runs-on: windows-latest
+    needs: [build, test]
+    environment:
+      name: prod
+    steps:
+      - uses: russellds/pwsh-module-publish@v0
+        with:
+          moduleName: ${{ env.MODULE_NAME }}
+          nuGetApiKey: ${{ secrets.PS_GALLERY_API_KEY }}
